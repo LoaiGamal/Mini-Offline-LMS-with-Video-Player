@@ -10,17 +10,17 @@
           "id": "s1",
           "title": "الجهاز الهيكلي",
           "lessons": [
-            { "id": "l1", "title": "العظام", "durationSec": 95, "video": "assets/videos/lesson1.mp4" },
+            { "id": "l1", "title": "العظام", "durationSec": 115, "video": "assets/videos/lesson1.mp4" },
             { "id": "l2", "title": "المفاصل", "durationSec": 120, "video": "assets/videos/lesson2.mp4" },
-            { "id": "l3", "title": "الغضاريف", "durationSec": 80, "video": "assets/videos/lesson3.mp4" }
+            { "id": "l3", "title": "الغضاريف", "durationSec": 120, "video": "assets/videos/lesson3.mp4" }
           ]
         },
         {
           "id": "s2",
           "title": "الجهاز العضلي",
           "lessons": [
-            { "id": "l4", "title": "أنواع العضلات", "durationSec": 110, "video": "assets/videos/lesson1.mp4" },
-            { "id": "l5", "title": "انقباض العضلات", "durationSec": 100, "video": "assets/videos/lesson2.mp4" }
+            { "id": "l4", "title": "أنواع العضلات", "durationSec": 115, "video": "assets/videos/lesson1.mp4" },
+            { "id": "l5", "title": "انقباض العضلات", "durationSec": 120, "video": "assets/videos/lesson2.mp4" }
           ]
         }
       ]
@@ -35,7 +35,7 @@
           "id": "s1",
           "title": "الجهاز الدوري",
           "lessons": [
-            { "id": "l1", "title": "القلب", "durationSec": 90, "video": "assets/videos/lesson3.mp4" },
+            { "id": "l1", "title": "القلب", "durationSec": 120, "video": "assets/videos/lesson3.mp4" },
             { "id": "l2", "title": "الدورة الدموية", "durationSec": 115, "video": "assets/videos/lesson1.mp4" }
           ]
         },
@@ -43,7 +43,7 @@
           "id": "s2",
           "title": "الجهاز التنفسي",
           "lessons": [
-            { "id": "l3", "title": "الرئتان", "durationSec": 105, "video": "assets/videos/lesson2.mp4" },
+            { "id": "l3", "title": "الرئتان", "durationSec": 120, "video": "assets/videos/lesson2.mp4" },
             { "id": "l4", "title": "تبادل الغازات", "durationSec": 85, "video": "assets/videos/missing_lesson.mp4" }
           ]
         }
