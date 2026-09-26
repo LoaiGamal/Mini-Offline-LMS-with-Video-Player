@@ -1,16 +1,17 @@
+import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:thaheen_task/features/courses/ui/screens/courses_screen.dart';
 
 abstract final class AppRoutes {
-  static const courses = '/';
+  static const String courses = '/';
 }
 
-final appRouter = GoRouter(
+final GoRouter appRouter = GoRouter(
   initialLocation: AppRoutes.courses,
-  routes: [
+  routes: <RouteBase>[
     GoRoute(
       path: AppRoutes.courses,
-      builder: (context, state) => const CoursesScreen(),
+      builder: (BuildContext context, GoRouterState state) => const CoursesScreen(),
     ),
   ],
 );

@@ -19,8 +19,8 @@ class ThaheenApp extends StatelessWidget {
       theme: AppTheme.light,
       routerConfig: appRouter,
       locale: const Locale('ar'),
-      supportedLocales: const [Locale('ar')],
-      localizationsDelegates: const [
+      supportedLocales: const <Locale>[Locale('ar')],
+      localizationsDelegates: const <LocalizationsDelegate<dynamic>>[
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,

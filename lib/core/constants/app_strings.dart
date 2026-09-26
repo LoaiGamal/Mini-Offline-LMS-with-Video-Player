@@ -1,4 +1,4 @@
 abstract final class AppStrings {
-  static const appName = 'Thaheen';
-  static const coursesTitle = 'دوراتي';
+  static const String appName = 'Thaheen';
+  static const String coursesTitle = 'دوراتي';
 }
