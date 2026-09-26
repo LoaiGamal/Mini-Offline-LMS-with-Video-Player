@@ -4,12 +4,20 @@ abstract final class AppTheme {
   static const String _bodyFont = 'IBMPlexSansArabic';
   static const String _headingFont = 'ReadexPro';
 
+  static const Color _highlight = Color(0xFF0F4F49);
+  static const Color _highlightTrack = Color(0xFF2B6B64);
+  static const Color _onHighlightMuted = Color(0xFFCFE6E2);
+
   static const ColorScheme _lightColors = ColorScheme(
     brightness: Brightness.light,
     primary: Color(0xFF0F6B63),
     onPrimary: Color(0xFFFFFFFF),
     primaryContainer: Color(0xFFE3F1EF),
     onPrimaryContainer: Color(0xFF0F6B63),
+    primaryFixed: _highlight,
+    primaryFixedDim: _highlightTrack,
+    onPrimaryFixed: Color(0xFFFFFFFF),
+    onPrimaryFixedVariant: _onHighlightMuted,
     secondary: Color(0xFFF4B860),
     onSecondary: Color(0xFF3A2604),
     tertiary: Color(0xFFB45309),
@@ -37,6 +45,10 @@ abstract final class AppTheme {
     onPrimary: Color(0xFF0B1F1C),
     primaryContainer: Color(0xFF16403B),
     onPrimaryContainer: Color(0xFFCFE6E2),
+    primaryFixed: _highlight,
+    primaryFixedDim: _highlightTrack,
+    onPrimaryFixed: Color(0xFFFFFFFF),
+    onPrimaryFixedVariant: _onHighlightMuted,
     secondary: Color(0xFFF4B860),
     onSecondary: Color(0xFF3A2604),
     tertiary: Color(0xFFF4B860),
