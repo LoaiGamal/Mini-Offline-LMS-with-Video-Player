@@ -1,5 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:thaheen_task/features/courses/data/models/lesson.dart';
+import 'package:thaheen_task/features/player/data/repo/player_settings_repo.dart';
 import 'package:thaheen_task/features/player/logic/player_state.dart';
 import 'package:thaheen_task/features/progress/logic/progress_cubit.dart';
 import 'package:thaheen_task/features/progress/logic/progress_rules.dart';
@@ -10,7 +11,9 @@ class PlayerCubit extends Cubit<PlayerState> {
     required this.courseId,
     required this.lesson,
     required this._progressCubit,
-  }) : super(const PlayerState.loading());
+    required this._settingsRepo,
+  }) : _speed = _savedSpeedOrDefault(_settingsRepo.loadSpeed()),
+       super(const PlayerState.loading());
 
   static const List<double> speeds = <double>[1, 1.25, 1.5, 2];
   static const Duration _saveInterval = Duration(seconds: 5);
@@ -18,12 +21,17 @@ class PlayerCubit extends Cubit<PlayerState> {
   final String courseId;
   final Lesson lesson;
   final ProgressCubit _progressCubit;
+  final PlayerSettingsRepo _settingsRepo;
 
   VideoPlayerController? _controller;
   DateTime _lastSavedAt = DateTime.fromMillisecondsSinceEpoch(0);
-  double _speed = 1;
+  double _speed;
 
   VideoPlayerController? get controller => _controller;
+
+  static double _savedSpeedOrDefault(double? savedSpeed) {
+    return speeds.contains(savedSpeed) ? savedSpeed! : speeds.first;
+  }
 
   Future<void> initialize() async {
     emit(const PlayerState.loading());
@@ -83,6 +91,11 @@ class PlayerCubit extends Cubit<PlayerState> {
   Future<void> setSpeed(double speed) async {
     _speed = speed;
     await _controller?.setPlaybackSpeed(speed);
+    try {
+      await _settingsRepo.saveSpeed(speed);
+    } catch (error, stackTrace) {
+      addError(error, stackTrace);
+    }
   }
 
   Future<void> saveProgress() async {
