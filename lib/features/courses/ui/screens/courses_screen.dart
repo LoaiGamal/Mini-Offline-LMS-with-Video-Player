@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:thaheen_task/core/components/app_icon_button.dart';
 import 'package:thaheen_task/core/components/empty_view.dart';
 import 'package:thaheen_task/core/components/error_view.dart';
 import 'package:thaheen_task/core/constants/app_strings.dart';
 import 'package:thaheen_task/core/router/app_router.dart';
+import 'package:thaheen_task/core/theme/theme_cubit.dart';
 import 'package:thaheen_task/features/courses/data/models/course.dart';
 import 'package:thaheen_task/features/courses/data/models/lesson.dart';
 import 'package:thaheen_task/features/courses/logic/courses_cubit.dart';
@@ -60,22 +62,40 @@ class _CoursesHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
     final String? subtitle = this.subtitle;
+    final bool isDark = theme.brightness == Brightness.dark;
     return Padding(
       padding: const EdgeInsets.fromLTRB(20, 16, 20, 22),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+      child: Row(
         children: <Widget>[
-          Text(AppStrings.coursesTitle, style: theme.textTheme.headlineMedium),
-          if (subtitle != null)
-            Padding(
-              padding: const EdgeInsets.only(top: 8),
-              child: Text(
-                subtitle,
-                style: theme.textTheme.bodyMedium?.copyWith(
-                  color: theme.colorScheme.onSurfaceVariant,
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  AppStrings.coursesTitle,
+                  style: theme.textTheme.headlineMedium,
                 ),
-              ),
+                if (subtitle != null)
+                  Padding(
+                    padding: const EdgeInsets.only(top: 8),
+                    child: Text(
+                      subtitle,
+                      style: theme.textTheme.bodyMedium?.copyWith(
+                        color: theme.colorScheme.onSurfaceVariant,
+                      ),
+                    ),
+                  ),
+              ],
             ),
+          ),
+          AppIconButton(
+            icon: isDark ? Icons.light_mode_outlined : Icons.dark_mode_outlined,
+            tooltip: isDark
+                ? AppStrings.enableLightMode
+                : AppStrings.enableDarkMode,
+            onPressed: () =>
+                context.read<ThemeCubit>().toggle(theme.brightness),
+          ),
         ],
       ),
     );
