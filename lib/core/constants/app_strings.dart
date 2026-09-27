@@ -6,6 +6,8 @@ abstract final class AppStrings {
   static const String backToCourses = 'العودة إلى الدورات';
   static const String minutes = 'دقيقة';
   static const String loading = 'جارٍ التحميل';
+  static const String enableDarkMode = 'تفعيل الوضع الداكن';
+  static const String enableLightMode = 'تفعيل الوضع الفاتح';
 
   static const String continueWatching = 'تابع المشاهدة';
   static const String allCourses = 'كل الدورات';
