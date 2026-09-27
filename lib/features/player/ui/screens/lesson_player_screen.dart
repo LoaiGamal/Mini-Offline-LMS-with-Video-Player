@@ -11,6 +11,7 @@ import 'package:thaheen_task/features/courses/data/models/lesson.dart';
 import 'package:thaheen_task/features/courses/data/models/section.dart';
 import 'package:thaheen_task/features/courses/logic/courses_cubit.dart';
 import 'package:thaheen_task/features/courses/logic/courses_state.dart';
+import 'package:thaheen_task/features/player/data/repo/player_settings_repo.dart';
 import 'package:thaheen_task/features/player/logic/player_cubit.dart';
 import 'package:thaheen_task/features/player/logic/player_state.dart';
 import 'package:thaheen_task/features/player/ui/widgets/next_lesson_card.dart';
@@ -73,6 +74,7 @@ class LessonPlayerScreen extends StatelessWidget {
           courseId: course.id,
           lesson: lesson,
           progressCubit: context.read<ProgressCubit>(),
+          settingsRepo: context.read<PlayerSettingsRepo>(),
         )..initialize();
       },
       child: _PlayerView(course: course, lesson: lesson),
