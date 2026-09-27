@@ -74,6 +74,12 @@ class PlayerCubit extends Cubit<PlayerState> {
     await controller.play();
   }
 
+  Future<void> play() async {
+    final VideoPlayerController? controller = _controller;
+    if (controller == null || !controller.value.isInitialized) return;
+    await controller.play();
+  }
+
   Future<void> pause() async {
     final VideoPlayerController? controller = _controller;
     if (controller == null || !controller.value.isInitialized) return;
