@@ -143,6 +143,12 @@ class _CoursesList extends StatelessWidget {
                           )]
                           ?.position ??
                       Duration.zero,
+                  onTap: () => context.push(
+                    AppRoutes.lesson(
+                      continueWatching.course.id,
+                      continueWatching.lesson.id,
+                    ),
+                  ),
                 ),
                 const SizedBox(height: 22),
               ],
