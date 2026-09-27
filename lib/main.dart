@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -14,6 +15,9 @@ import 'package:thaheen_task/features/progress/logic/progress_cubit.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await SystemChrome.setPreferredOrientations(<DeviceOrientation>[
+    DeviceOrientation.portraitUp,
+  ]);
   final SharedPreferences prefs = await SharedPreferences.getInstance();
   runApp(ThaheenApp(prefs: prefs));
 }
@@ -28,10 +32,13 @@ class ThaheenApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: <BlocProvider<dynamic>>[
         BlocProvider<CoursesCubit>(
-          create: (BuildContext context) => CoursesCubit(const CoursesRepo(CoursesLocalSource()))..loadCourses(),
+          create: (BuildContext context) =>
+              CoursesCubit(const CoursesRepo(CoursesLocalSource()))
+                ..loadCourses(),
         ),
         BlocProvider<ProgressCubit>(
-          create: (BuildContext context) => ProgressCubit(ProgressRepo(ProgressLocalSource(prefs))),
+          create: (BuildContext context) =>
+              ProgressCubit(ProgressRepo(ProgressLocalSource(prefs))),
         ),
       ],
       child: MaterialApp.router(
