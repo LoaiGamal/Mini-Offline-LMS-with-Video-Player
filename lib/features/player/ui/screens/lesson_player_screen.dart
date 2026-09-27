@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:thaheen_task/core/components/app_button.dart';
 import 'package:thaheen_task/core/components/app_icon_button.dart';
 import 'package:thaheen_task/core/components/error_view.dart';
 import 'package:thaheen_task/core/constants/app_strings.dart';
@@ -11,6 +12,7 @@ import 'package:thaheen_task/features/courses/data/models/lesson.dart';
 import 'package:thaheen_task/features/courses/data/models/section.dart';
 import 'package:thaheen_task/features/courses/logic/courses_cubit.dart';
 import 'package:thaheen_task/features/courses/logic/courses_state.dart';
+import 'package:thaheen_task/features/notes/ui/widgets/notes_sheet.dart';
 import 'package:thaheen_task/features/player/data/repo/player_settings_repo.dart';
 import 'package:thaheen_task/features/player/logic/player_cubit.dart';
 import 'package:thaheen_task/features/player/logic/player_state.dart';
@@ -293,7 +295,37 @@ class _LessonDetails extends StatelessWidget {
                 context.pushReplacement(AppRoutes.lesson(course.id, next.id)),
           ),
         ],
+        const SizedBox(height: 20),
+        AppButton(
+          label: AppStrings.lessonNotes,
+          icon: Icons.edit_outlined,
+          variant: AppButtonVariant.outlined,
+          onPressed: () => _openNotes(context),
+        ),
       ],
     );
+  }
+
+  Future<void> _openNotes(BuildContext context) async {
+    final PlayerCubit player = context.read<PlayerCubit>();
+    final PlayerState state = player.state;
+    final bool wasPlaying = state is PlayerReady && state.isPlaying;
+    bool jumped = false;
+    await player.pause();
+    if (!context.mounted) return;
+
+    await showNotesSheet(
+      context,
+      courseId: course.id,
+      lessonId: lesson.id,
+      lessonTitle: lesson.title,
+      position: state is PlayerReady ? state.position : Duration.zero,
+      onJump: (Duration position) async {
+        jumped = true;
+        await player.seekTo(position);
+        await player.play();
+      },
+    );
+    if (wasPlaying && !jumped) await player.play();
   }
 }

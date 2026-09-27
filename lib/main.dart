@@ -10,6 +10,9 @@ import 'package:thaheen_task/core/theme/theme_cubit.dart';
 import 'package:thaheen_task/features/courses/data/local/courses_local_source.dart';
 import 'package:thaheen_task/features/courses/data/repo/courses_repo.dart';
 import 'package:thaheen_task/features/courses/logic/courses_cubit.dart';
+import 'package:thaheen_task/features/notes/data/local/notes_local_source.dart';
+import 'package:thaheen_task/features/notes/data/repo/notes_repo.dart';
+import 'package:thaheen_task/features/notes/logic/notes_cubit.dart';
 import 'package:thaheen_task/features/player/data/local/player_settings_local_source.dart';
 import 'package:thaheen_task/features/player/data/repo/player_settings_repo.dart';
 import 'package:thaheen_task/features/progress/data/local/progress_local_source.dart';
@@ -45,6 +48,10 @@ class ThaheenApp extends StatelessWidget {
           BlocProvider<ProgressCubit>(
             create: (BuildContext context) =>
                 ProgressCubit(ProgressRepo(ProgressLocalSource(prefs))),
+          ),
+          BlocProvider<NotesCubit>(
+            create: (BuildContext context) =>
+                NotesCubit(NotesRepo(NotesLocalSource(prefs))),
           ),
           BlocProvider<ThemeCubit>(
             create: (BuildContext context) => ThemeCubit(prefs),
