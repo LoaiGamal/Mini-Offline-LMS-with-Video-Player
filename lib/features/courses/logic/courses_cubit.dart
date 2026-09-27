@@ -23,4 +23,9 @@ class CoursesCubit extends Cubit<CoursesState> {
       emit(const CoursesState.error());
     }
   }
+
+  void search(String query) {
+    final CoursesState state = this.state;
+    if (state is CoursesLoaded) emit(state.copyWith(query: query));
+  }
 }
