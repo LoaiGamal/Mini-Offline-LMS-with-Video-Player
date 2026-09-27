@@ -55,6 +55,29 @@ abstract final class AppStrings {
   static const String lessonLockedMessage =
       'أكمل الدروس السابقة أولًا لفتح هذا الدرس.';
 
+  static const String lessonNotes = 'ملاحظاتي على الدرس';
+  static const String myNotes = 'ملاحظاتي';
+  static const String close = 'إغلاق';
+  static const String noteHint = 'اكتب ملاحظتك هنا…';
+  static const String saveNote = 'حفظ الملاحظة';
+  static const String deleteNote = 'حذف الملاحظة';
+  static const String noteDeleted = 'حُذفت الملاحظة';
+  static const String undo = 'تراجع';
+  static const String noNotesTitle = 'لا توجد ملاحظات بعد';
+  static const String noNotesMessage =
+      'اكتب ملاحظة وسنحفظ معها توقيت الفيديو لتعود إليه لاحقًا.';
+
+  static String noteAt(String time) => 'عند $time';
+
+  static String jumpTo(String time) => 'انتقل إلى $time';
+
+  static String notesCount(int count) {
+    if (count == 1) return 'ملاحظة واحدة';
+    if (count == 2) return 'ملاحظتان';
+    if (count >= 3 && count <= 10) return '$count ملاحظات';
+    return '$count ملاحظة';
+  }
+
   static String lessonPosition(String sectionTitle, int index, int total) {
     return '$sectionTitle · الدرس $index من $total';
   }
