@@ -10,6 +10,7 @@ sealed class CoursesState with _$CoursesState {
   const factory CoursesState.loaded({
     required List<Course> courses,
     required Set<String> missingVideos,
+    @Default('') String query,
   }) = CoursesLoaded;
 
   const factory CoursesState.empty() = CoursesEmpty;

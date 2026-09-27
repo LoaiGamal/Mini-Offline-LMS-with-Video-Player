@@ -11,6 +11,12 @@ abstract final class AppStrings {
 
   static const String continueWatching = 'تابع المشاهدة';
   static const String allCourses = 'كل الدورات';
+  static const String searchHint = 'ابحث عن دورة';
+  static const String clearSearch = 'مسح البحث';
+  static const String searchResults = 'نتائج البحث';
+  static const String noResultsTitle = 'لا توجد نتائج';
+  static const String noResultsMessage =
+      'جرّب البحث باسم الدورة أو المحاضر أو أحد الدروس.';
 
   static const String emptyLessonsTitle = 'عذرًا، لا توجد دروس متاحة حاليًا';
   static const String emptyLessonsMessage =
