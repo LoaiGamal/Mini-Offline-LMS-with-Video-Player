@@ -9,10 +9,12 @@ import 'package:thaheen_task/core/router/app_router.dart';
 import 'package:thaheen_task/core/theme/theme_cubit.dart';
 import 'package:thaheen_task/features/courses/data/models/course.dart';
 import 'package:thaheen_task/features/courses/data/models/lesson.dart';
+import 'package:thaheen_task/features/courses/logic/course_search.dart';
 import 'package:thaheen_task/features/courses/logic/courses_cubit.dart';
 import 'package:thaheen_task/features/courses/logic/courses_state.dart';
 import 'package:thaheen_task/features/courses/ui/widgets/continue_watching_card.dart';
 import 'package:thaheen_task/features/courses/ui/widgets/course_card.dart';
+import 'package:thaheen_task/features/courses/ui/widgets/course_search_field.dart';
 import 'package:thaheen_task/features/courses/ui/widgets/courses_skeleton.dart';
 import 'package:thaheen_task/features/progress/data/models/lesson_progress.dart';
 import 'package:thaheen_task/features/progress/logic/progress_cubit.dart';
@@ -28,9 +30,8 @@ class CoursesScreen extends StatelessWidget {
         child: BlocBuilder<CoursesCubit, CoursesState>(
           builder: (BuildContext context, CoursesState state) {
             return switch (state) {
-              CoursesLoaded(:final List<Course> courses) => _CoursesList(
-                courses: courses,
-              ),
+              CoursesLoaded(:final List<Course> courses, :final String query) =>
+                _CoursesList(courses: courses, query: query),
               CoursesLoading() => const _WithHeader(child: CoursesSkeleton()),
               CoursesEmpty() => const _WithHeader(
                 child: EmptyView(
@@ -120,9 +121,10 @@ class _WithHeader extends StatelessWidget {
 }
 
 class _CoursesList extends StatelessWidget {
-  const _CoursesList({required this.courses});
+  const _CoursesList({required this.courses, required this.query});
 
   final List<Course> courses;
+  final String query;
 
   @override
   Widget build(BuildContext context) {
@@ -131,8 +133,11 @@ class _CoursesList extends StatelessWidget {
         .watch<ProgressCubit>()
         .state
         .lessons;
-    final ({Course course, Lesson lesson})? continueWatching =
-        ProgressRules.continueWatching(courses, progress);
+    final bool isSearching = query.trim().isNotEmpty;
+    final List<Course> visibleCourses = CourseSearch.filter(courses, query);
+    final ({Course course, Lesson lesson})? continueWatching = isSearching
+        ? null
+        : ProgressRules.continueWatching(courses, progress);
     final int lessonsCount = courses.fold(
       0,
       (int total, Course course) => total + course.orderedLessons.length,
@@ -140,6 +145,7 @@ class _CoursesList extends StatelessWidget {
 
     return ListView(
       padding: const EdgeInsets.only(bottom: 32),
+      keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
       children: <Widget>[
         _CoursesHeader(
           subtitle:
@@ -150,6 +156,11 @@ class _CoursesList extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
+              CourseSearchField(
+                initialQuery: query,
+                onChanged: context.read<CoursesCubit>().search,
+              ),
+              const SizedBox(height: 22),
               if (continueWatching != null) ...<Widget>[
                 Text(AppStrings.continueWatching, style: textTheme.titleMedium),
                 const SizedBox(height: 12),
@@ -172,9 +183,13 @@ class _CoursesList extends StatelessWidget {
                 ),
                 const SizedBox(height: 22),
               ],
-              Text(AppStrings.allCourses, style: textTheme.titleMedium),
+              Text(
+                isSearching ? AppStrings.searchResults : AppStrings.allCourses,
+                style: textTheme.titleMedium,
+              ),
               const SizedBox(height: 12),
-              for (final Course course in courses) ...<Widget>[
+              if (visibleCourses.isEmpty) const _NoResults(),
+              for (final Course course in visibleCourses) ...<Widget>[
                 CourseCard(
                   course: course,
                   progress: ProgressRules.courseProgress(course, progress),
@@ -186,6 +201,37 @@ class _CoursesList extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+}
+
+class _NoResults extends StatelessWidget {
+  const _NoResults();
+
+  @override
+  Widget build(BuildContext context) {
+    final ThemeData theme = Theme.of(context);
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 32),
+      child: Column(
+        children: <Widget>[
+          Icon(
+            Icons.search_off_rounded,
+            size: 40,
+            color: theme.colorScheme.onSurfaceVariant,
+          ),
+          const SizedBox(height: 12),
+          Text(AppStrings.noResultsTitle, style: theme.textTheme.titleSmall),
+          const SizedBox(height: 4),
+          Text(
+            AppStrings.noResultsMessage,
+            textAlign: TextAlign.center,
+            style: theme.textTheme.bodyMedium?.copyWith(
+              color: theme.colorScheme.onSurfaceVariant,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
