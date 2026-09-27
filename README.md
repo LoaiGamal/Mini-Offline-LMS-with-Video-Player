@@ -126,4 +126,4 @@ If the data grew (many courses, sync with a backend, querying), I would move to 
 
 ## Time spent
 
-Roughly **9** of work, because I also completed the bonus tasks.
+Roughly **9 hours** of work, because I also completed the bonus tasks.
